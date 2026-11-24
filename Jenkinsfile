@@ -1,4 +1,3 @@
-
 pipeline {
     agent any
 
@@ -8,7 +7,6 @@ pipeline {
     }
 
     stages {
-
         stage('Checkout') {
             steps {
                 echo 'Getting code from GitHub'
@@ -19,7 +17,6 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building application'
-
                 sh '''
                     mkdir -p build
                     cp index.html build/index.html
@@ -31,7 +28,6 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing application'
-
                 sh '''
                     test -f build/index.html
                     grep -q "Welcome to My CI/CD Project" build/index.html
@@ -45,53 +41,8 @@ pipeline {
         success {
             echo 'CI Pipeline Successful!'
         }
-
         failure {
             echo 'CI Pipeline Failed!'
         }
     }
 }
-
-pipeline {
-    agent any
-
-    stages {
-        stage('Checkout') {
-            steps {
-                echo 'Getting code from GitHub'
-                checkout scm
-            }
-        }
-
-        stage('Build') {
-            steps {
-                echo 'Building application'
-                sh '''
-                    mkdir -p build
-                    cp index.html build/index.html
-                '''
-            }
-        }
-
-        stage('Test') {
-            steps {
-                echo 'Testing application'
-                sh '''
-                    test -f build/index.html
-                    grep -q "Welcome to My CI/CD Project" build/index.html
-                    echo "Test passed!"
-                '''
-            }
-        }
-    }
-
-    post {
-        success {
-            echo 'Pipeline completed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed!'
-        }
-    }
-}
-
