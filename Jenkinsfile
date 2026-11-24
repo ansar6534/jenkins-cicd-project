@@ -35,14 +35,24 @@ pipeline {
                 '''
             }
         }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying application to Nginx'
+                sh '''
+                    cp build/index.html /var/www/html/index.html
+                    echo "Deployment completed successfully"
+                '''
+            }
+        }
     }
 
     post {
         success {
-            echo 'CI Pipeline Successful!'
+            echo 'CI/CD Pipeline Successful!'
         }
         failure {
-            echo 'CI Pipeline Failed!'
+            echo 'CI/CD Pipeline Failed!'
         }
     }
 }
